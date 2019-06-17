@@ -1,0 +1,12 @@
+---
+- hosts: localhost
+  tasks:
+    - name: Jenkins Skip startUp for MI
+      lineinfile:
+        dest=/etc/sysconfig/jenkins
+        regexp='^JENKINS_JAVA_OPTIONS='
+        line='JENKINS_JAVA_OPTIONS="-Djava.awt.headless=true -Djenkins.install.runSetupWizard=false"'
+      register: result_skip_startup_wizard
+    - name: Install plugin
+      jenkins_plugin:
+        name: build-pipeline-plugin
